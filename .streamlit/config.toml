@@ -1,0 +1,15 @@
+[theme]
+# Cor principal para botões, checkboxes, etc.
+primaryColor = "#007bff" # Um azul vibrante (exemplo: azul do Bootstrap)
+
+# Cor de fundo da aplicação
+backgroundColor = "#e9ecef" # Um cinza bem claro, quase branco
+
+# Cor de fundo dos elementos secundários (sidebar, widgets, etc.)
+secondaryBackgroundColor = "#e9ecef" # Um cinza um pouco mais escuro
+
+# Cor do texto
+textColor = "#122941" # Um cinza escuro para o texto
+
+# Fonte padrão
+font = "sans serif" # Ou "serif", "monospace"
