@@ -25,7 +25,7 @@ def create_connection():
     return conn
 
 def create_table():
-    """Cria a tabela de Items se ela não existir."""
+    """Cria a tabela de itens se ela não existir."""
     conn = create_connection()
     if conn:
         try:
@@ -50,7 +50,7 @@ def create_table():
             conn.close()
 
 def insert_uniform(name, uniform_type, size, model, color, quantity, description):
-    """Insere um novo Item no banco de dados."""
+    """Insere um novo itens no banco de dados."""
     conn = create_connection()
     if conn:
         try:
@@ -62,13 +62,13 @@ def insert_uniform(name, uniform_type, size, model, color, quantity, description
             conn.commit()
             return True
         except sqlite3.Error as e:
-            st.error(f"Erro ao cadastrar Item: {e}")
+            st.error(f"Erro ao cadastrar itens: {e}")
             return False
         finally:
             conn.close()
 
 def select_all_uniforms():
-    """Retorna todos os Items cadastrados."""
+    """Retorna todos os itens cadastrados."""
     conn = create_connection()
     uniforms = []
     if conn:
@@ -78,13 +78,13 @@ def select_all_uniforms():
             uniforms = cursor.fetchall()
             uniforms = [tuple(row) for row in uniforms] # Convert Row objects to tuples
         except sqlite3.Error as e:
-            st.error(f"Erro ao buscar Items: {e}")
+            st.error(f"Erro ao buscar itens: {e}")
         finally:
             conn.close()
     return uniforms
 
 def select_uniform_by_id(uniform_id):
-    """Retorna um Item pelo seu ID."""
+    """Retorna um itens pelo seu ID."""
     conn = create_connection()
     uniform = None
     if conn:
@@ -95,13 +95,13 @@ def select_uniform_by_id(uniform_id):
             if uniform:
                 uniform = tuple(uniform) # Convert Row object to tuple
         except sqlite3.Error as e:
-            st.error(f"Erro ao buscar Item por ID: {e}")
+            st.error(f"Erro ao buscar itens por ID: {e}")
         finally:
             conn.close()
     return uniform
 
 def update_uniform(uniform_id, name, uniform_type, size, model, color, description):
-    """Atualiza os atributos de um Item (exceto a quantidade)."""
+    """Atualiza os atributos de um itens (exceto a quantidade)."""
     conn = create_connection()
     if conn:
         try:
@@ -114,13 +114,13 @@ def update_uniform(uniform_id, name, uniform_type, size, model, color, descripti
             conn.commit()
             return True
         except sqlite3.Error as e:
-            st.error(f"Erro ao atualizar Item: {e}")
+            st.error(f"Erro ao atualizar itens: {e}")
             return False
         finally:
             conn.close()
 
 def update_uniform_quantity(uniform_id, new_quantity):
-    """Atualiza a quantidade em estoque de um Item."""
+    """Atualiza a quantidade em estoque de um itens."""
     conn = create_connection()
     if conn:
         try:
@@ -133,13 +133,13 @@ def update_uniform_quantity(uniform_id, new_quantity):
             conn.commit()
             return True
         except sqlite3.Error as e:
-            st.error(f"Erro ao atualizar quantidade do Item: {e}")
+            st.error(f"Erro ao atualizar quantidade do itens: {e}")
             return False
         finally:
             conn.close()
 
 def delete_uniform(uniform_id):
-    """Exclui um Item do banco de dados."""
+    """Exclui um itens do banco de dados."""
     conn = create_connection()
     if conn:
         try:
@@ -148,7 +148,7 @@ def delete_uniform(uniform_id):
             conn.commit()
             return True
         except sqlite3.Error as e:
-            st.error(f"Erro ao excluir Item: {e}")
+            st.error(f"Erro ao excluir itens: {e}")
             return False
         finally:
             conn.close()
@@ -166,15 +166,15 @@ def go_to_page(page_name, uniform_id=None):
 def show_home_page():
     """Exibe a página inicial com as opções de menu."""
     st.image("logoNslog.png", width=200) # <--- AQUI!
-    st.title("👕 Controle de Estoque de Items")
+    st.title("👕 Controle de Estoque de itens")
     st.write("Selecione uma opção abaixo para gerenciar seu estoque:")
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        if st.button("➕ Cadastrar Novo Item", use_container_width=True):
+        if st.button("➕ Cadastrar Novo itens", use_container_width=True):
             go_to_page("add")
     with col2:
-        if st.button("📝 Editar Item", use_container_width=True):
+        if st.button("📝 Editar itens", use_container_width=True):
             go_to_page("edit_select") # Vai para a tela de seleção primeiro
     with col3:
         if st.button("📊 Listar Itens", use_container_width=True):
@@ -182,33 +182,33 @@ def show_home_page():
 
     col4, col5 = st.columns(2) # Usando 2 colunas para os 2 últimos botões
     with col4:
-        if st.button("🗑️ Excluir Item", use_container_width=True):
+        if st.button("🗑️ Excluir itens", use_container_width=True):
             go_to_page("delete_select") # Vai para a tela de seleção primeiro
     with col5:
         if st.button("📦 Movimentar Estoque", use_container_width=True):
             go_to_page("move_stock_select") # Vai para a tela de seleção primeiro
 
 def show_add_uniform_page():
-    """Página para cadastrar um novo Item."""
-    st.title("➕ Cadastrar Novo Item")
-    st.write("Preencha os detalhes do novo Item.")
+    """Página para cadastrar um novo itens."""
+    st.title("➕ Cadastrar Novo itens")
+    st.write("Preencha os detalhes do novo itens.")
 
     with st.form("add_uniform_form"):
-        uniform_name = st.text_input("Nome do Item (Opcional)", placeholder="Ex: Camiseta Polo Azul MASC P")
-        uniform_type = st.selectbox("Tipo", UNIFORM_TYPES, help="Selecione o tipo de Item (Masculino/Feminino)")
-        size = st.selectbox("Tamanho", SIZES, help="Selecione o tamanho do Item")
-        model = st.selectbox("Modelo", MODELS, help="Selecione o modelo do Item")
-        color = st.selectbox("Cor", COLORS, help="Selecione a cor do Item")
+        uniform_name = st.text_input("Nome do itens (Opcional)", placeholder="Ex: Camiseta Polo Azul MASC P")
+        uniform_type = st.selectbox("Tipo", UNIFORM_TYPES, help="Selecione o tipo de itens (Masculino/Feminino)")
+        size = st.selectbox("Tamanho", SIZES, help="Selecione o tamanho do itens")
+        model = st.selectbox("Modelo", MODELS, help="Selecione o modelo do itens")
+        color = st.selectbox("Cor", COLORS, help="Selecione a cor do itens")
         quantity = st.number_input("Quantidade Inicial em Estoque", min_value=0, value=0, step=1, help="Quantidade inicial disponível no estoque")
-        description = st.text_area("Descrição (Opcional)", placeholder="Detalhes adicionais sobre o Item", height=100)
+        description = st.text_area("Descrição (Opcional)", placeholder="Detalhes adicionais sobre o itens", height=100)
 
-        submitted = st.form_submit_button("Cadastrar Item")
+        submitted = st.form_submit_button("Cadastrar itens")
         if submitted:
             if quantity < 0:
                 st.error("A quantidade inicial em estoque não pode ser negativa.")
             else:
                 if insert_uniform(uniform_name, uniform_type, size, model, color, quantity, description):
-                    st.success("Item cadastrado com sucesso!")
+                    st.success("itens cadastrado com sucesso!")
                     st.balloons()
                     # go_to_page("home") # Redireciona para a página inicial
 
@@ -216,13 +216,13 @@ def show_add_uniform_page():
         go_to_page("home")
 
 def show_list_uniforms_page():
-    """Página para listar todos os Items cadastrados."""
-    st.title("📊 Items Cadastrados")
+    """Página para listar todos os itens cadastrados."""
+    st.title("📊 itens Cadastrados")
 
     uniforms = select_all_uniforms()
 
     if not uniforms:
-        st.info("Nenhum Item cadastrado ainda. Utilize a opção 'Cadastrar Novo Item' na tela inicial.")
+        st.info("Nenhum itens cadastrado ainda. Utilize a opção 'Cadastrar Novo itens' na tela inicial.")
     else:
         # Criar um DataFrame para exibir de forma organizada
         df = pd.DataFrame(uniforms, columns=["ID", "Nome", "Tipo", "Tamanho", "Modelo", "Cor", "Quantidade", "Descrição"])
@@ -234,10 +234,10 @@ def show_list_uniforms_page():
         if st.button("➕ Cadastrar Novo", use_container_width=True):
             go_to_page("add")
     with col_list_2:
-        if st.button("📝 Editar Item", use_container_width=True):
+        if st.button("📝 Editar itens", use_container_width=True):
             go_to_page("edit_select")
     with col_list_3:
-        if st.button("🗑️ Excluir Item", use_container_width=True):
+        if st.button("🗑️ Excluir itens", use_container_width=True):
             go_to_page("delete_select")
     with col_list_4:
         if st.button("⬅️ Voltar à Página Inicial", use_container_width=True):
@@ -245,20 +245,20 @@ def show_list_uniforms_page():
 
 def show_select_uniform_for_action_page(action_type):
     """
-    Página genérica para selecionar um Item antes de Editar, Excluir ou Movimentar Estoque.
+    Página genérica para selecionar um itens antes de Editar, Excluir ou Movimentar Estoque.
     action_type: 'edit', 'delete', 'move_stock'
     """
     if action_type == 'edit':
-        st.title("📝 Selecionar Item para Editar")
-        button_label = "Editar Item Selecionado"
+        st.title("📝 Selecionar itens para Editar")
+        button_label = "Editar itens Selecionado"
         next_page = "edit"
     elif action_type == 'delete':
-        st.title("🗑️ Selecionar Item para Excluir")
-        button_label = "Excluir Item Selecionado"
+        st.title("🗑️ Selecionar itens para Excluir")
+        button_label = "Excluir itens Selecionado"
         next_page = "delete"
     elif action_type == 'move_stock':
-        st.title("📦 Selecionar Item para Movimentar Estoque")
-        button_label = "Movimentar Estoque do Item Selecionado"
+        st.title("📦 Selecionar itens para Movimentar Estoque")
+        button_label = "Movimentar Estoque do itens Selecionado"
         next_page = "move_stock"
     else:
         st.error("Ação inválida.")
@@ -268,7 +268,7 @@ def show_select_uniform_for_action_page(action_type):
     uniforms = select_all_uniforms()
 
     if not uniforms:
-        st.warning("Nenhum Item cadastrado para esta ação.")
+        st.warning("Nenhum itens cadastrado para esta ação.")
         if st.button("⬅️ Voltar à Página Inicial"):
             go_to_page("home")
         return
@@ -277,9 +277,9 @@ def show_select_uniform_for_action_page(action_type):
     uniform_options = {f"{u[0]} - {u[1]} ({u[2]}, {u[3]}, {u[4]}, {u[5]}) - Qtd: {u[6]}": u[0] for u in uniforms}
     
     selected_option_key = st.selectbox(
-        "Selecione um Item:",
+        "Selecione um itens:",
         options=list(uniform_options.keys()),
-        help="Selecione o Item desejado para prosseguir com a ação."
+        help="Selecione o itens desejado para prosseguir com a ação."
     )
 
     if st.button(button_label, type="primary"):
@@ -290,17 +290,17 @@ def show_select_uniform_for_action_page(action_type):
         go_to_page("home")
 
 def show_edit_uniform_page(uniform_id):
-    """Página para editar os atributos de um Item."""
+    """Página para editar os atributos de um itens."""
     uniform = select_uniform_by_id(uniform_id)
 
     if not uniform:
-        st.error("Item não encontrado ou ID inválido.")
+        st.error("itens não encontrado ou ID inválido.")
         if st.button("⬅️ Voltar"):
             go_to_page("home")
         return
 
-    st.title(f"📝 Editar Item: {uniform[1]} (ID: {uniform[0]})") # uniform[1] é o nome do Item
-    st.write("Altere os detalhes do Item abaixo. A quantidade em estoque só pode ser alterada via 'Movimentar Estoque'.")
+    st.title(f"📝 Editar itens: {uniform[1]} (ID: {uniform[0]})") # uniform[1] é o nome do itens
+    st.write("Altere os detalhes do itens abaixo. A quantidade em estoque só pode ser alterada via 'Movimentar Estoque'.")
 
     # Encontra os índices para preencher os selectbox corretamente
     type_idx = UNIFORM_TYPES.index(uniform[2]) if uniform[2] in UNIFORM_TYPES else 0
@@ -309,7 +309,7 @@ def show_edit_uniform_page(uniform_id):
     color_idx = COLORS.index(uniform[5]) if uniform[5] in COLORS else 0
 
     with st.form("edit_uniform_form"):
-        uniform_name = st.text_input("Nome do Item (Opcional)", value=uniform[1])
+        uniform_name = st.text_input("Nome do itens (Opcional)", value=uniform[1])
         uniform_type = st.selectbox("Tipo", UNIFORM_TYPES, index=type_idx)
         size = st.selectbox("Tamanho", SIZES, index=size_idx)
         model = st.selectbox("Modelo", MODELS, index=model_idx)
@@ -321,7 +321,7 @@ def show_edit_uniform_page(uniform_id):
         submitted = st.form_submit_button("Salvar Alterações")
         if submitted:
             if update_uniform(uniform_id, uniform_name, uniform_type, size, model, color, description):
-                st.success("Item atualizado com sucesso!")
+                st.success("itens atualizado com sucesso!")
                 st.balloons()
                 #go_to_page("home")
 
@@ -329,22 +329,22 @@ def show_edit_uniform_page(uniform_id):
         go_to_page("home")
 
 def show_delete_uniform_page(uniform_id):
-    """Página para confirmar a exclusão de um Item."""
+    """Página para confirmar a exclusão de um itens."""
     uniform = select_uniform_by_id(uniform_id)
 
     if not uniform:
-        st.error("Item não encontrado ou ID inválido.")
+        st.error("itens não encontrado ou ID inválido.")
         if st.button("⬅️ Voltar"):
             go_to_page("home")
         return
 
-    st.title("🗑️ Excluir Item")
-    st.warning(f"Você está prestes a excluir o Item: **{uniform[1]}** (ID: {uniform[0]})")
-    st.write("Esta ação é irreversível e removerá permanentemente o Item do sistema.")
+    st.title("🗑️ Excluir itens")
+    st.warning(f"Você está prestes a excluir o itens: **{uniform[1]}** (ID: {uniform[0]})")
+    st.write("Esta ação é irreversível e removerá permanentemente o itens do sistema.")
 
     if st.button("CONFIRMAR EXCLUSÃO", type="secondary"):
         if delete_uniform(uniform_id):
-            st.success("Item excluído com sucesso!")
+            st.success("itens excluído com sucesso!")
             #go_to_page("home") # Redireciona para a página inicial
 
     if st.button("⬅️ Cancelar e Voltar"):
@@ -355,7 +355,7 @@ def show_move_stock_page(uniform_id):
     uniform = select_uniform_by_id(uniform_id)
 
     if not uniform:
-        st.error("Item não encontrado ou ID inválido.")
+        st.error("itens não encontrado ou ID inválido.")
         if st.button("⬅️ Voltar"):
             go_to_page("home")
         return
@@ -394,7 +394,7 @@ def show_move_stock_page(uniform_id):
 
 def main():
     """Função principal que controla o fluxo da aplicação Streamlit."""
-    st.set_page_config(page_title="Controle de Estoque de Items", layout="centered", initial_sidebar_state="collapsed")
+    st.set_page_config(page_title="Controle de Estoque de itens", layout="centered", initial_sidebar_state="collapsed")
 
     # Inicializa o banco de dados e a tabela na primeira execução
     create_table()
